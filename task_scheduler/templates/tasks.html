@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasks</title>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <ul>
+    {% for task in tasks %}
+        <li>{{ task.task}} - Reminder: {{ task.reminder }}</li>
+    {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Schedule a New Task</a>
+</body>
+</html>
