@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Task Scheduler</title>
-</head>
-<body>
-    <h1>Schedule a Task</h1>
-    <form action="{{ url_for('schedule_task') }}" method="post">
-        <label for="task">Task:</label>
-        <input type="text" name="task" required><br><br>
-        <label for="reminder">Reminder (YYYY-MM-DDTHH:MM):</label>
-        <input type="datetime-local" name="reminder" value="{{ datetime_now.strftime('%Y-%m-%dT%H:%M') }}" required><br><br>
-        <button type="submit">Schedule Task</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Welcome to Task Scheduler!</h2>
+
+    {% if tasks %}
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li>{{ task.task_description }} - {% if task.is_completed %}Completed{% else %}Pending{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks available.</p>
+    {% endif %}
+
+    {% if 'user_id' in session %}
+        <form class="add-task-form" method="post" action="{{ url_for('add_task') }}">
+            <label for="task_description">New Task:</label>
+            <input type="text" id="task_description" name="task_description" required>
+            <button type="submit">Add Task</button>
+        </form>
+    {% endif %}
+{% endblock %}
